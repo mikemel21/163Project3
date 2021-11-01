@@ -8,18 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class ListModel extends AbstractTableModel {
     /**
      * holds all the rentals
      */
-    private ArrayList<Rental> listOfRentals;
+    private MySingleWithTailLinkedList listOfRentals;
 
     /**
      * holds only the rentals that are to be displayed
      */
-    private ArrayList<Rental> fileredListRentals;
+    private MySingleWithTailLinkedList fileredListRentals;
 
     /**
      * current screen being displayed
@@ -36,8 +37,8 @@ public class ListModel extends AbstractTableModel {
 
     public ListModel() {
         display = ScreenDisplay.CurrentRentalStatus;
-        listOfRentals = new ArrayList<Rental>();
-        fileredListRentals = new ArrayList<Rental>();
+        listOfRentals = new MySingleWithTailLinkedList();
+        fileredListRentals = new MySingleWithTailLinkedList();
         UpdateScreen();
         createList();
     }
@@ -208,7 +209,7 @@ public class ListModel extends AbstractTableModel {
             FileInputStream fis = new FileInputStream(filename);
             ObjectInputStream is = new ObjectInputStream(fis);
 
-            listOfRentals = (ArrayList<Rental>) is.readObject();
+            listOfRentals = (MySingleWithTailLinkedList) is.readObject();
             UpdateScreen();
             is.close();
         } catch (Exception ex) {
