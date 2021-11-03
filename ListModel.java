@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.Random;
 
 public class ListModel extends AbstractTableModel {
@@ -333,7 +332,6 @@ public class ListModel extends AbstractTableModel {
 
                     add(console);
 
-
                 }
 
                 count++;
@@ -363,7 +361,6 @@ public class ListModel extends AbstractTableModel {
         }
     }
 }
-
 
 
 

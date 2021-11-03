@@ -3,6 +3,8 @@ package project3;
 import java.io.Serializable;
 import java.util.Random;
 
+import java.util.LinkedList;
+
 public class MySingleWithTailLinkedList implements Serializable
 {
     private Node top;
@@ -65,15 +67,37 @@ public class MySingleWithTailLinkedList implements Serializable
         }
 
         //  more code goes here.
+        
 
         return;
 
     }
 
+    /**
+     * removes data of a rental at a specific index
+     * 
+     * @param index of what rental to remove
+     * @return rental data of removed rental
+     */
     public Rental remove(int index) {
-        //  more code goes here.
+        // GO THROUGH EXCEPTIONS  
+    	
+		int counter = 0;
+		Node tNode = top;
+		
+		// 1. walk to index - 1
+		while (counter < index-1) {
+			counter++;
+			tNode = tNode.getNext();
+		}
+		
+		// 2. capture data at index
+		Rental removed = tNode.getNext().getData();
+		
+		// 3. node at index-1 next points to node at index + 1
+		tNode.setNext(tNode.getNext().getNext());
 
-        return null;
+        return removed;
     }
 
     public Rental get(int index) {
