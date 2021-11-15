@@ -267,14 +267,9 @@ public class ListModel extends AbstractTableModel {
             Game game7 = new Game("Person5", g4, g8, null, "title1",
                     new Console("Person5", g4, g8, null, ConsoleTypes.NintendoSwitch));
 
-            add(game1);
-            add(game4);
-            add(game5);
-            add(game2);
-            add(game3);
-            add(game6);
-            add(game7);
 
+            
+            
             add(console1);
             add(console2);
             add(console5);
@@ -284,22 +279,23 @@ public class ListModel extends AbstractTableModel {
             
             //These commented out code is to help with debugging for step 2 and Step 3
                 // COMMENT OUT WHEN DONE
-            add(game1);
-            add(game4);
-            add(console1);
-            listOfRentals.remove(0);
-            add(console4);
-            add(game5);
-            add(game2);
-            listOfRentals.remove(listOfRentals.size()-1);
-            listOfRentals.remove(2);
-            add(game3);
-            add(console5);
-            add(game6);
-            add(console3);
-            listOfRentals.remove(listOfRentals.size()-1);
-            add(game7);
-            add(console2);
+//            add(game1);
+//            add(game4);
+//            add(console1);
+//            listOfRentals.remove(0);
+//            add(console4);
+//            add(game5);
+//            add(game2);
+//            listOfRentals.remove(listOfRentals.size()-1);
+//            listOfRentals.remove(2);
+//            add(game3);
+//            add(console5);
+//            add(game6);
+//            add(console3);
+//            listOfRentals.remove(listOfRentals.size()-1);
+//            add(game7);
+//            add(console2);
+            
             for (int i = 0; i < listOfRentals.size(); i++)
                 System.out.println(listOfRentals.get(i).toString());
                 

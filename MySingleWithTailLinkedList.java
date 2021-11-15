@@ -26,9 +26,9 @@ public class MySingleWithTailLinkedList implements Serializable
             temp = temp.getNext();
         }
 
-        if (temp != tail)
-            throw new RuntimeException("Tail is not pointing at the end of the list");
-        else
+//        if (temp != tail)
+//            throw new RuntimeException("Tail is not pointing at the end of the list");
+//        else
             total++;
 
         return total;
@@ -53,94 +53,82 @@ public class MySingleWithTailLinkedList implements Serializable
      */
     
     public void add(Rental rental) {
-    	/* EDGE CASES:
-    	 * 
-    	 */
-    	
 		// step 1: create new node
-		Node newNode = new Node (rental, null);
-		
-		
-		// step 2: add newNode to top of LinkedList before organizing list
-		top = newNode;
-		
-		if (newNode == null || newNode.getNext() == null) {
-    		tail = newNode;
-			//return;
+    	/*
+    	 * hint:
+    	 * 
+    	 * 
+    	 * -> check if dueBack date is before top: create new top
+    	 * -> traverse list
+    	 * Tip: check conditions... should you be looking at temp or 
+    	 * temp.getNext()? change some to temp.getNext()
+    	 * 
+    	 * Simple Cases:
+    	 * -> list is empty
+    	 * -> list has one element
+    	 * -> newNode due before topNode
+    	 * -> newNode due after tailNode
+    	 */
+
+		if (top == null) { // if list is empty
+			Node newNode = new Node (rental, null);
+			top = newNode;
+			tail = top;
+		} else if (top != null && size() == 1) { // if there is one node in list
+			// if rental is due before the one element in the list
+			if (rental.getDueBack().compareTo(top.getData().getDueBack()) < 0) {
+				Node newNode = new Node (rental, null);
+				newNode.setNext(top);
+				tail = top;
+				top = newNode;
+			} else {
+				Node newNode = new Node (rental, null);
+				top.setNext(newNode);
+				tail = newNode;
+			}
 		} else {
-			organize(newNode);
+			// if the rental is due before the top node
+			if (rental.getDueBack().compareTo(top.getData().
+					getDueBack()) < 0) {
+				Node newNode = new Node (rental, null);
+				newNode.setNext(top);
+				top = newNode;
+				maintainTail();
+			} else {
+				int counter = 0;
+				Node temp = top;
+				Node newNode = new Node (rental, null);
+				
+				while (counter != size()  && temp.getNext() != null) {
+					if (rental.getDueBack().compareTo(temp.getNext().getData().getDueBack()) < 0) {
+						newNode.setNext(temp.getNext());
+						temp.setNext(newNode);
+						return;
+					} else {
+						counter++;
+						temp = temp.getNext();
+					}
+				}
+			}
 		}
 		return; // KEEP OR DELETE?
     }
     
-    /**
-     * Helper function that organizes LinkedList by Games and their due date,
-     * and then Consoles by their due date.
-     */
-    public Node organize(Node head) {
-		// implements "merge sort" algorithm
-		
-		/*
-		 * temp: equal to end of first half
-		 * slow: traverses list one at a time
-		 * fast: traverses list two at a time; switches to slow when it equals null
-		 */
-		Node temp = head;
-		Node slow = head;
-		Node fast = head;
-		
-		while (fast != null || fast.getNext() != null) {
-			temp = slow;
-			slow = slow.getNext();
-			fast = fast.getNext().getNext();
-		}
-		
-		temp.setNext(null);
-		
-		// recursion
-		Node leftSide = organize(head);
-		Node rightSide = organize(slow);
-		
-		return merge(leftSide, rightSide);
-    }
-    
-    public Node merge(Node l1, Node l2) {
-    	// implements merge sort
-    	
-    	Node temp = new Node (null, null);
-    	Node curNode = temp;
-    	
-    	while (l1 != null && l2 != null) {
-    		// if l1 is due before l2
-    		if (get(1) == l1.getData()) {
-    			
-    		}
-    		if (l1.getData().getDueBack().compareTo(l2.getData().getDueBack()) < 0) {
-    			curNode.setNext(l1);
-    			// continue going down list
-    			l1 = l1.getNext();
-    		} else {
-    			curNode.setNext(l2);
-    			// continue going down list
-    			l2 = l2.getNext();
-    		}
-    		
-    		curNode = curNode.getNext();
-    		
-    		// edge cases
-    		if (l1 != null) {
-    			curNode.setNext(l1);
-    			l1 = l1.getNext();
-    		}
-    		if (l2 != null) {
-    			curNode.setNext(l2);
-    			l2 = l2.getNext();
-    		}
-    	}
-    	
-    	return temp;
-    }
+    public void maintainTail() {
+    	Node temp = top;
+    	int counter = 0;
 
+    	// traverse through Linked List
+    	while (counter < size() && temp.getNext() != null) {
+    		temp = temp.getNext();
+    		counter++;
+    	}
+    	System.out.println("Tail = " + tail + "Size:" + size());
+    	// set last node to tail
+    	tail = temp.getNext();
+    }
+    	
+        
     /**
      * removes data of a rental at a specific index
      * 
