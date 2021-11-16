@@ -26,9 +26,9 @@ public class MySingleWithTailLinkedList implements Serializable
             temp = temp.getNext();
         }
 
-//        if (temp != tail)
-//            throw new RuntimeException("Tail is not pointing at the end of the list");
-//        else
+        if (temp != tail)
+            throw new RuntimeException("Tail is not pointing at the end of the list");
+        else
             total++;
 
         return total;
@@ -74,58 +74,65 @@ public class MySingleWithTailLinkedList implements Serializable
 			Node newNode = new Node (rental, null);
 			top = newNode;
 			tail = top;
-		} else if (top != null && size() == 1) { // if there is one node in list
-			// if rental is due before the one element in the list
-			if (rental.getDueBack().compareTo(top.getData().getDueBack()) < 0) {
+			return;
+		} else if (rental.getDueBack().compareTo( // if newNode is due before the top Node
+						top.getData().getDueBack()) < 0) {
 				Node newNode = new Node (rental, null);
+				// set newNode's next to top
 				newNode.setNext(top);
-				tail = top;
+				// set newNode as the top
 				top = newNode;
-			} else {
-				Node newNode = new Node (rental, null);
-				top.setNext(newNode);
-				tail = newNode;
-			}
-		} else {
-			// if the rental is due before the top node
-			if (rental.getDueBack().compareTo(top.getData().
-					getDueBack()) < 0) {
-				Node newNode = new Node (rental, null);
-				newNode.setNext(top);
-				top = newNode;
-				maintainTail();
-			} else {
+		} 
+//		else if (rental.getDueBack().compareTo( // if rental is due after tail
+//					tail.getData().getDueBack()) > 0) {
+//				Node newNode = new Node (rental, null);
+//				tail.setNext(newNode);
+//				tail = newNode;
+//		} 
+		else {
 				int counter = 0;
 				Node temp = top;
 				Node newNode = new Node (rental, null);
 				
-				while (counter != size()  && temp.getNext() != null) {
-					if (rental.getDueBack().compareTo(temp.getNext().getData().getDueBack()) < 0) {
+				while (temp != null) {
+					// if rental is due before temp
+					if (temp.getNext() != null && rental.getDueBack().compareTo(
+							temp.getNext().getData().getDueBack()) < 0) {
 						newNode.setNext(temp.getNext());
 						temp.setNext(newNode);
+						maintainTail();
+						return;
+					}
+					// if newNode must be inserted after tail
+					else if (rental.getDueBack().compareTo(
+							tail.getData().getDueBack()) < 0) { 
+						tail.setNext(newNode);
+						tail = newNode;
 						return;
 					} else {
+						//traverse through list
 						counter++;
 						temp = temp.getNext();
-					}
+					} 
 				}
 			}
-		}
-		return; // KEEP OR DELETE?
+		return;
     }
     
+    /**
+     * helper function to maintain the tail of the linked list when needed
+     */
     public void maintainTail() {
     	Node temp = top;
+    	Node newTail = new Node (null, null);
     	int counter = 0;
 
     	// traverse through Linked List
-    	while (counter < size() && temp.getNext() != null) {
+    	while (temp.getNext() != null) {
     		temp = temp.getNext();
     		counter++;
     	}
-    	System.out.println("Tail = " + tail + "Size:" + size());
-    	// set last node to tail
-    	tail = temp.getNext();
+    	tail = temp;
     }
     	
         
