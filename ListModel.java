@@ -276,19 +276,24 @@ public class ListModel extends AbstractTableModel {
 //            add(console3);
 //            add(console4);
 
+            add(game1);
+            add(game2);
+            add(game3);
+            add(game4);
+            add(game6);
             
             //These commented out code is to help with debugging for step 2 and Step 3
                 // COMMENT OUT WHEN DONE
-            add(game1);
-            add(game4);
+//            add(game1);
+//            add(game4);
 //            add(console1);
 //            listOfRentals.remove(0);
 //            add(console4);
-           add(game5);
-           add(game2);
+//            add(game5);
+//            add(game2);
 //            listOfRentals.remove(listOfRentals.size()-1);
 //            listOfRentals.remove(2);
-            add(game3);
+//            add(game3);
 //            add(console5);
 //            add(game6);
 //            add(console3);

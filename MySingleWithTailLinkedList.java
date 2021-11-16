@@ -75,22 +75,7 @@ public class MySingleWithTailLinkedList implements Serializable
 			top = newNode;
 			tail = top;
 			return;
-		} else if (rental.getDueBack().compareTo( // if newNode is due before the top Node
-						top.getData().getDueBack()) < 0) {
-				Node newNode = new Node (rental, null);
-				// set newNode's next to top
-				newNode.setNext(top);
-				// set newNode as the top
-				top = newNode;
-		} 
-//		else if (rental.getDueBack().compareTo( // if rental is due after tail
-//					tail.getData().getDueBack()) > 0) {
-//				Node newNode = new Node (rental, null);
-//				tail.setNext(newNode);
-//				tail = newNode;
-//		} 
-		else {
-				int counter = 0;
+		} else {
 				Node temp = top;
 				Node newNode = new Node (rental, null);
 				
@@ -105,13 +90,18 @@ public class MySingleWithTailLinkedList implements Serializable
 					}
 					// if newNode must be inserted after tail
 					else if (rental.getDueBack().compareTo(
-							tail.getData().getDueBack()) < 0) { 
+							tail.getData().getDueBack()) > 0) { 
 						tail.setNext(newNode);
 						tail = newNode;
 						return;
+					} 
+					// if newNode must be inserted before top
+					else if (rental.getDueBack().compareTo(
+							top.getData().getDueBack()) < 0) {
+						newNode.setNext(top);
+						top = newNode;
 					} else {
 						//traverse through list
-						counter++;
 						temp = temp.getNext();
 					} 
 				}
@@ -150,14 +140,14 @@ public class MySingleWithTailLinkedList implements Serializable
          * index is 0
          * index is at the tail (MAYBE)
          */
-    	if (top == null || index < 0 || index >= size()) {
+    	if (top == null) {
     		return null;
     	} else if (index == 0) {
 			// takes the data from top
 			Rental removed = top.getData();
 			
 			// "deletes" top AKA switches top
-			top = top.getNext(); 
+			top = top.getNext();
 			return removed; 
     	} else {
 			int counter = 0;
@@ -174,7 +164,7 @@ public class MySingleWithTailLinkedList implements Serializable
 				
 				// 3. node at index-1 next points to node at index + 1
 				tNode.setNext(tNode.getNext().getNext());
-		
+				maintainTail();
 		        return removed;
     	}
 
