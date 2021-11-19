@@ -68,9 +68,9 @@ public class MySingleWithTailLinkedList implements Serializable
 						if (rental instanceof Game) {
 							// if Game is due before temp
 							if (temp.getNext() != null && 
-									rental.getDueBack().compareTo(
+									(rental.getDueBack().compareTo(
 									temp.getNext().getData().
-									getDueBack()) < 0) {
+									getDueBack()) < 0 || temp.getNext().getData() instanceof Console)) {
 								newNode.setNext(temp.getNext());
 								temp.setNext(newNode);
 								maintainTail();
@@ -78,14 +78,14 @@ public class MySingleWithTailLinkedList implements Serializable
 							}
 							// if Game must be inserted after tail
 							else if (rental.getDueBack().compareTo(
-									tail.getData().getDueBack()) > 0) { 
+									tail.getData().getDueBack()) > 0 && tail.getData() instanceof Game) { 
 								tail.setNext(newNode);
 								tail = newNode;
 								return;
 							} 
 							// if Game must be inserted before top
 							else if (rental.getDueBack().compareTo(
-									top.getData().getDueBack()) < 0) {
+									top.getData().getDueBack()) < 0 && top.getData() instanceof Game) {
 								newNode.setNext(top);
 								top = newNode;
 								return;
