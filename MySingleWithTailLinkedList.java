@@ -53,59 +53,74 @@ public class MySingleWithTailLinkedList implements Serializable
      */
     
     public void add(Rental rental) {
-		// step 1: create new node
-    	/*
-    	 * hint:
-    	 * 
-    	 * 
-    	 * -> check if dueBack date is before top: create new top
-    	 * -> traverse list
-    	 * Tip: check conditions... should you be looking at temp or 
-    	 * temp.getNext()? change some to temp.getNext()
-    	 * 
-    	 * Simple Cases:
-    	 * -> list is empty
-    	 * -> list has one element
-    	 * -> newNode due before topNode
-    	 * -> newNode due after tailNode
-    	 */
-
-		if (top == null) { // if list is empty
-			Node newNode = new Node (rental, null);
-			top = newNode;
-			tail = top;
-			return;
-		} else {
-				Node temp = top;
+    	// checks first to see if rental is a Game or Console
+			if (top == null) { // if list is empty
 				Node newNode = new Node (rental, null);
-				
-				while (temp != null) {
-					// if rental is due before temp
-					if (temp.getNext() != null && rental.getDueBack().compareTo(
-							temp.getNext().getData().getDueBack()) < 0) {
-						newNode.setNext(temp.getNext());
-						temp.setNext(newNode);
-						maintainTail();
-						return;
-					}
-					// if newNode must be inserted after tail
-					else if (rental.getDueBack().compareTo(
-							tail.getData().getDueBack()) > 0) { 
-						tail.setNext(newNode);
-						tail = newNode;
-						return;
-					} 
-					// if newNode must be inserted before top
-					else if (rental.getDueBack().compareTo(
-							top.getData().getDueBack()) < 0) {
-						newNode.setNext(top);
-						top = newNode;
-					} else {
+				top = newNode;
+				tail = top;
+				return;
+			} else {
+					Node temp = top;
+					Node newNode = new Node (rental, null);
+					
+					while (temp != null) {
+
+						if (rental instanceof Game) {
+							// if Game is due before temp
+							if (temp.getNext() != null && 
+									rental.getDueBack().compareTo(
+									temp.getNext().getData().
+									getDueBack()) < 0) {
+								newNode.setNext(temp.getNext());
+								temp.setNext(newNode);
+								maintainTail();
+								return;
+							}
+							// if Game must be inserted after tail
+							else if (rental.getDueBack().compareTo(
+									tail.getData().getDueBack()) > 0) { 
+								tail.setNext(newNode);
+								tail = newNode;
+								return;
+							} 
+							// if Game must be inserted before top
+							else if (rental.getDueBack().compareTo(
+									top.getData().getDueBack()) < 0) {
+								newNode.setNext(top);
+								top = newNode;
+								return;
+							} 
+						} 
+						//Consoles
+						else { 
+							// new top
+							if (rental.getDueBack().compareTo(
+									top.getData().getDueBack()) < 0 && top.getData() instanceof Console) {
+								newNode.setNext(top);
+								top = newNode;
+								return;
+							}
+			    			// if Console must be inserted before temp
+							else if (temp.getNext() != null && newNode.
+									getData().getDueBack().compareTo(
+									temp.getNext().getData().getDueBack())<0 && temp.getNext().getData() instanceof Console) {
+								newNode.setNext(temp.getNext());
+								temp.setNext(newNode);
+								return;
+			    			}
+			       			// if Console is due after tail
+			    			else if (newNode.getData().getDueBack().compareTo(
+									tail.getData().getDueBack()) > 0 
+			    					|| tail.getData() instanceof Game) {
+								tail.setNext(newNode);
+								maintainTail();
+								return;
+			    			} 
+						}
 						//traverse through list
 						temp = temp.getNext();
-					} 
+					}
 				}
-			}
 		return;
     }
     
